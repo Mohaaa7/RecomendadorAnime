@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import recomendador as rec
 
 app = Flask(__name__)
+CORS(app)
 VERSION = "1.0.1"
 
 
