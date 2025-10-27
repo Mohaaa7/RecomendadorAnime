@@ -1,62 +1,83 @@
 import pandas as pd
-import os
 
+ratings = None
+animes = None
+userRatings = None
+corrMatrix = None
 
-def main():
-    ratings = pd.read_csv('.\\data\\rating.csv', sep=',', encoding="ISO-8859-1")
-    animes = pd.read_csv('.\\data\\anime.csv', sep=',', encoding="ISO-8859-1")
+def entrenar_modelo():
+    global ratings, animes, userRatings, corrMatrix
+    
+    print("Iniciando entrenamiento del modelo...")
 
+    # Cargar archivos
+    print("Cargando CSV...")
+    ratings = pd.read_csv('./data/rating.csv', encoding="ISO-8859-1")
+    animes = pd.read_csv('./data/anime.csv', encoding="ISO-8859-1")
+
+    print(f"Ratings cargados: {len(ratings)} filas")
+    print(f"Animes cargados: {len(animes)} filas")
+
+    # Filtrar ratings inválidos
     ratings = ratings[ratings['rating'] != -1]
+    print(f"Ratings válidos: {len(ratings)}")
 
-    ratings = ratings[ratings.groupby('user_id')['user_id'].transform('count') >= 1]
-
+    # Merge con nombres
     ratings = pd.merge(ratings, animes[['anime_id', 'name']], on='anime_id', how='left')
+    print("Merge realizado")
 
-    print(ratings)
+    # Pivot table
+    print("Generando tabla de usuario-anime...")
+    userRatings = ratings.pivot_table(index='user_id', columns='name', values='rating')
+    print(f"userRatings generado: {userRatings.shape}")
 
-    #---------------------------------------
+    # Matriz de correlaciones
+    print("Calculando matriz de correlación...")
+    corrMatrix = userRatings.corr(method='pearson', min_periods=30)
+    print(f"correlación lista: {corrMatrix.shape}")
 
-    userRatings = ratings.pivot_table(index=['user_id'],columns=['name'],values='rating')
-    userRatings.head()
+    print("Modelo entrenado exitosamente")
+    return "Modelo entrenado"
 
-    #---------------------------------------
 
-    corrMatrix = userRatings.corr(method='pearson', min_periods=50)
-    corrMatrix.head()
+def recomendar(animes_list, ratings_list):
+    global corrMatrix, userRatings
 
-    #---------------------------------------
+    # Verificar que el modelo haya sido entrenado
+    if corrMatrix is None:
+        print("ERROR: Modelo no entrenado")
+        raise Exception("Modelo no entrenado")
 
-    print(corrMatrix.shape)
-    myRatings = userRatings.loc[0].dropna()
-    myRatings
+    print("Iniciando recomendación para:")
+    for a, r in zip(animes_list, ratings_list):
+        print(f"   → {a} (rating {r})")
 
-    simCandidates = pd.Series()
-    print(simCandidates)
-    for i in range(0, len(myRatings.index)):
-        print ("Añadiendo pelis similares a " + myRatings.index[i] + "...")
-        sims = corrMatrix[myRatings.index[i]].dropna()
-        sims = sims.map(lambda x: x * myRatings[i])
+    # Serie para acumular similitudes ponderadas
+    simCandidates = pd.Series(dtype=float)
+
+    # Buscar animes similares a los proporcionados por el usuario
+    for anime, rate in zip(animes_list, ratings_list):
+        if anime not in corrMatrix.columns:
+            print(f"Anime no encontrado en la matriz: {anime}")
+            continue
+
+        print(f"Añadiendo animes similares a: {anime}")
+        sims = corrMatrix[anime].dropna()
+        sims = sims.map(lambda x: x * rate)
         simCandidates = pd.concat([simCandidates, sims])
 
-    #---------------------------------------
-        
-    print ("Ordenando...")
-    simCandidates.sort_values(inplace = True, ascending = False)
-    print (simCandidates.head(10)) 
+    if simCandidates.empty:
+        print(" Ninguna similitud encontrada")
+        return []
 
-    #---------------------------------------
-
+    print("Ordenando candidatos...")
     simCandidates = simCandidates.groupby(simCandidates.index).sum()
+    simCandidates = simCandidates.sort_values(ascending=False)
 
-    simCandidates.sort_values(inplace = True, ascending = False)
-    simCandidates.head(10)
+    recs = [a for a in simCandidates.index if a not in animes_list][:10]
 
-    #---------------------------------------
+    print("Recomendaciones finales:")
+    for r in recs:
+        print(f"   {r}")
 
-    filteredSims = simCandidates.drop(myRatings.index, errors='ignore')
-    filteredSims.head(10)
-
-
-
-if __name__ == "__main__":
-    main()
+    return recs
