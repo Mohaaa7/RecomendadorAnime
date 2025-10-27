@@ -30,9 +30,13 @@ def obtener_recomendaciones():
 
         recomendaciones = rec.recomendar(animes_list, ratings_list)
 
-        return jsonify({"recomendaciones": recomendaciones})
+        if isinstance(recomendaciones, dict):
+            return jsonify(recomendaciones)
+        else:
+            return jsonify({"recomendaciones": recomendaciones, "fallback": False})
     except Exception as e:
         return jsonify({"error": str(e)})
+
 
 
 @app.route("/test")
