@@ -13,7 +13,7 @@ VERSION = "1.0.1"
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "super3",
+    "password": "123456",
     "database": "recomendador-anime"
 }
 
