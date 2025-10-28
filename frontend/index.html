@@ -1,61 +1,150 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recomendación de Anime</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Recomendación de Anime</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-100 min-h-screen flex flex-col items-center p-8">
-
-    <header class="text-center mb-10">
-        <h1 class="text-4xl font-bold text-pink-600 mb-2">Recomendador de Anime</h1>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-slate-100">
+  
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    
+    <!-- Header Section -->
+    <header class="mb-12">
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          Recomendaciones de Anime
+        </h2>
+        <p class="text-slate-400 text-lg">
+          Algoritmo avanzado de aprendizaje automático para descubrir contenido personalizado basado en tus preferencias
+        </p>
+      </div>
     </header>
 
-    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Recommendations Panel -->
+      <div class="lg:col-span-2">
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden">
+          <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
+            <h3 class="text-2xl font-bold text-white flex items-center">
+              Generador de Recomendaciones
+            </h3>
+            <p class="text-indigo-100 mt-2 text-sm">Ingresa tu historial de visualización y calificaciones para obtener sugerencias personalizadas</p>
+          </div>
+          
+          <div class="p-8">
+            <form id="recommendationForm" class="space-y-6">
+              <div>
+                <label class="block text-sm font-semibold text-slate-300 mb-2">
+                  Títulos Visualizados
+                </label>
+                <input 
+                  id="animes" 
+                  type="text" 
+                  placeholder="Ej: Naruto, One Piece, Attack on Titan"
+                  class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                />
+                <p class="text-xs text-slate-500 mt-2">Separa múltiples títulos con comas</p>
+              </div>
 
-        <section class="bg-white p-6 rounded-2xl shadow">
-            <h2 class="text-2xl font-bold text-pink-600 mb-4">Obtener Recomendaciones</h2>
+              <div>
+                <label class="block text-sm font-semibold text-slate-300 mb-2">
+                  Calificaciones Asignadas
+                </label>
+                <input 
+                  id="ratings" 
+                  type="text" 
+                  placeholder="Ej: 9, 8, 7.5"
+                  class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                />
+                <p class="text-xs text-slate-500 mt-2">Calificaciones del 1 al 10, separadas por comas</p>
+              </div>
 
-            <label class="block mb-2 font-semibold">Animes vistos:</label>
-            <input id="animes" type="text" placeholder="Naruto, One Piece"
-                class="w-full border rounded-lg p-2 mb-4">
+              <button 
+                type="button"
+                id="btnRecomendar"
+                class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-indigo-500/50 flex items-center justify-center group"
+              >
+                Generar Recomendaciones
+              </button>
+            </form>
 
-            <label class="block mb-2 font-semibold">Calificaciones:</label>
-            <input id="ratings" type="text" placeholder="9,8"
-                class="w-full border rounded-lg p-2 mb-4">
+            <!-- Results Container -->
+            <div class="mt-8">
+              <div class="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6">
+                <div class="flex items-start">
+                  <div class="flex-1">
+                    <h4 class="text-sm font-semibold text-slate-300 mb-2">Resultados</h4>
+                    <div id="resultado" class="text-slate-400 text-sm leading-relaxed">
+                      Esperando datos de entrada para generar recomendaciones...
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <button id="btnRecomendar"
-                class="bg-pink-500 hover:bg-pink-600 text-white w-full py-2 rounded-lg font-semibold">
-                Obtener recomendaciones
+      <!-- Control Panel -->
+      <div class="space-y-6">
+        
+        <!-- Algorithm Management -->
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl overflow-hidden">
+          <div class="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 border-b border-slate-600/50">
+            <h3 class="text-lg font-bold text-white flex items-center">
+              Panel de Control
+            </h3>
+          </div>
+          
+          <div class="p-6 space-y-4">
+            <button 
+              id="btnEntrenar"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center group"
+            >
+              Entrenar Modelo
             </button>
 
-            <div id="resultado" class="mt-4"></div>
-        </section>
-
-        <section class="bg-white p-6 rounded-2xl shadow flex flex-col gap-4">
-            <h2 class="text-2xl font-bold text-pink-600 mb-2">Otras opciones</h2>
-
-            <button id="btnEntrenar"
-                class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold">
-                Entrenar algoritmo
+            <button 
+              id="btnTest"
+              class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3.5 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center group"
+            >
+              Testear Algoritmo
             </button>
 
-            <button id="btnVersion"
-                class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold">
-                Obtener versión
+            <button 
+              id="btnVersion"
+              class="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-3.5 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center group"
+            >
+              Obtener la versión 
             </button>
+          </div>
+        </div>
 
-            <button id="btnTest"
-                class="bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-semibold">
-                Testear algoritmo
-            </button>
+        <!-- Status Panel -->
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 px-6 py-5 border-b border-slate-600/50">
+            <h3 class="text-lg font-bold text-white flex items-center">
+              Estado del Sistema
+            </h3>
+          </div>
+          
+          <div class="p-6">
+            <div id="info" class="bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-lg p-5 border border-slate-600/30 text-slate-300 text-sm leading-relaxed">
+              Info del sistema...
+            </div>
+          </div>
+        </div>
 
-            <div id="info" class="mt-4 text-sm text-gray-700"></div>
-        </section>
-    </main>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
