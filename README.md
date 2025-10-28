@@ -2,11 +2,10 @@ Sistema de Recomendación de Animes
 ------------------------------------
 Prerrequisitos:
 ------------------------------------
-Python 3.8 o superior
-pip (gestor de paquetes de Python)
+Python 3.8 o superior y pip (gestor de paquetes de Python)
 
 Pasos de instalación:
-
+------------------------------------
 (Clonar el repositorio)
 git clone <url-del-repositorio>
 cd anime-recommender
@@ -27,6 +26,6 @@ Uso:
 Primero entrenar el algoritmo.
 Esperar hasta que se entrene.
 
-Obtener recomendaciones usando el formulario, ejemplo:
-Naruto, One Piece
-9, 8
+Obtener recomendaciones usando el formulario, ejemplo (usar sin comillas):
+"Naruto, One Piece"
+"9, 8"
