@@ -14,7 +14,8 @@ https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database
 En Mysql Workbench ejecutar el dump.sql de la carpeta "db"
 
 (Clonar el repositorio)
-git clone <url-del-repositorio>
+git clone https://github.com/Mohaaa7/RecomendadorAnime.git
+
 cd anime-recommender
 
 (Instalar dependencias)
@@ -28,7 +29,7 @@ Abrir direccion del servidor
 
 Uso:
 ----------------------------------
-Iniciar sesión con el usuario especificado
+Iniciar sesión con el usuario especificado.
 Antes de usar el recomendador entrenar el algoritmo.
 Esperar hasta que se entrene.
 
