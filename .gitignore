@@ -13,3 +13,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+data/*.csv
+data/recomendaciones/*
+!data/
+!data/recomendaciones/
