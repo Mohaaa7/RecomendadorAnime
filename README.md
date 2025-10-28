@@ -1,10 +1,10 @@
 Sistema de Recomendación de Animes
 ------------------------------------
 Prerrequisitos:
-
+------------------------------------
 Python 3.8 o superior
 pip (gestor de paquetes de Python)
-------------------------------------
+
 Pasos de instalación:
 
 (Clonar el repositorio)
@@ -20,8 +20,9 @@ py -m app
 
 (En carpeta frontend)
 Abrir index.html
-----------------------------------
+
 Uso:
+----------------------------------
 
 Primero entrenar el algoritmo.
 Esperar hasta que se entrene.
