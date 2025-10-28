@@ -259,3 +259,10 @@ document.getElementById("btnTest").addEventListener("click", async () => {
         console.error("Error:", err);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const usuarioElement = document.getElementById('usuarioNombre');
+    if (usuarioElement) {
+        usuarioElement.textContent = 'Usuario Activo';
+    }
+});

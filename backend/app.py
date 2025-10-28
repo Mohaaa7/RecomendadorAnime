@@ -20,7 +20,6 @@ db_config = {
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
-# Rutas de login usando Usuario
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -38,19 +37,18 @@ def login():
         if usuario_db:
             usuario = Usuario(usuario_db[0], usuario_db[1])
             session["usuario"] = usuario.get_nombre()
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("recomendaciones"))
         else:
             flash("Usuario o contraseña incorrectos", "error")
 
     return render_template("login.html")
 
 
-@app.route("/dashboard")
-def dashboard():
+@app.route("/recomendaciones")
+def recomendaciones():
     if "usuario" not in session:
         return redirect(url_for("login"))
-    return f"Bienvenido, {session['usuario']}! <a href='/logout'>Cerrar sesión</a>"
-
+    return render_template("index.html", usuario=session["usuario"])
 
 @app.route("/logout")
 def logout():
