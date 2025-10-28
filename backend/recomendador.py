@@ -68,7 +68,7 @@ def recomendar(animes_list, ratings_list, top_n=10):
     if not animes_existentes:
         print("Usando fallback: animes populares")
         recs = [a for a in anime_popularity if a not in animes_list][:top_n]
-        return {"recomendaciones": recs, "fallback": True, "mensaje": "Anime no encontrado"}
+        return {"recomendaciones": recs, "fallback": True, "mensaje": "Anime no encontrado, mostrando animes populares"}
 
     # Perfil de usuario teniendo en cuenta el rating
     user_profile = np.zeros(content_similarity.shape[0])
