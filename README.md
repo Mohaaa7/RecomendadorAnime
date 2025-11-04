@@ -8,33 +8,33 @@ Mysql Workbench instalado
 
 Pasos de instalación:
 ------------------------------------
-Descargar de kaggle el dataset de recomendación de animes, y añadirlo a la carpeta data. Son 2 archivos: anime.csv y rating.csv:
+1. Descargar de kaggle el dataset de recomendación de animes, y añadirlo a la carpeta data. Son 2 archivos: anime.csv y rating.csv:
 
-https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database
-
-
-Montar base de datos:
-
-En Mysql Workbench ejecutar el dump.sql de la carpeta "db"
+    https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database
 
 
-Clonar el repositorio:
+2. Montar base de datos:
 
-git clone https://github.com/Mohaaa7/RecomendadorAnime.git
-
-
-Instalar dependencias:
-
-pip install flask flask-cors pandas numpy scikit-learn
+    En Mysql Workbench ejecutar el dump.sql de la carpeta "db"
 
 
-Iniciar servidor:
+3. Clonar el repositorio:
 
-cd backend
+    git clone https://github.com/Mohaaa7/RecomendadorAnime.git
 
-py -m app
 
-Abrir direccion del servidor
+4. Instalar dependencias:
+
+    pip install flask flask-cors pandas numpy scikit-learn
+
+
+5. Iniciar servidor:
+
+    cd backend
+
+    py -m app
+
+    Abrir direccion del servidor
 
 Uso:
 ----------------------------------
@@ -46,5 +46,5 @@ Uso:
 
 4. Obtener recomendaciones usando el formulario, ejemplo (usar sin comillas):
 
-"Naruto, One Piece"
-"9, 8"
+    "Naruto, One Piece"
+    "9, 8"
